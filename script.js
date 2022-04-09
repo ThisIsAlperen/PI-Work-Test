@@ -30,9 +30,15 @@ const UI = (function(){
 
 const APP = (function(Product ,UI){
     const newProduct = [];
-    const getProduct = function(){
-        product = Product.getInitialData()
-        
+    const product = Product.getInitialData()
+    const path = [];
+    const button = document.getElementById('button')
+    const loadEventListeners = function(){
+        button.addEventListener('click',getPath)
+    }
+    
+    // get the number list from the Product and send to the findPrimes function
+    const getProduct = function(){  
         subProduct = [];
         product.forEach(element => {
             findPrimes(element)
@@ -42,10 +48,10 @@ const APP = (function(Product ,UI){
         console.log(newProduct)
         getTotal()
     }
+    // get the numbers, returns the not primes
     const findPrimes = function(e){
         e.forEach(number =>{
             sqrt = Math.floor(Math.sqrt(number));
-            
             for(i = 2; i<sqrt+1;i++){
                 if(number % i == 0){
                     subProduct.push(number)
@@ -56,18 +62,47 @@ const APP = (function(Product ,UI){
             }
         });
     }
-    const getTotal = function(){
-        const total = 0;
-        for(i=0;i<newProduct.length;i++){
-            initial = 0;
-
-            previous = initial;
+    // finds a random way in the not prime pyramid
+    const getPath = function(e){
+        e.preventDefault();
+        var previous = 0;
+        for(i=0;i<product.length-1;i++){
            
+
+            if(previous == 0){
+                next = [0,1]
+            }else{
+                next = [-1,0,1]
+            }
+            
+            for(j=0;j<next.length;j++){
+                
+                console.log(product[i+1][previous + next[j]])
+            }
+
+            
+    
+
         }
+    }
+    const Prime = function(e){
+        sqrt = Math.floor(Math.sqrt(number));
+            for(i = 2; i<sqrt+1;i++){
+                if(number % i == 0){
+                    return true;
+                }
+            }
+            if(number == 1){
+                return true;
+            }
+    }
+    const getTotal = function(e){
+
     }
     return {
         init: function(){
             getProduct()
+            loadEventListeners()
         }
     }
 })(Product, UI)
