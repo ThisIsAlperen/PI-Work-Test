@@ -39,20 +39,22 @@ const APP = (function (Product, UI) {
     }
 
     // finds all the paths in the pyramid
+
     const Path2 = function () {
         length = product.length
-        for(j=0;j<10;j++){
+        getTotal()
+        for (j = 0; j < total; j++) {
             i = 0;
             previous = 0;
             path = []
-            console.log(length)
+
             for (i = 0; i < length; i++) {
                 if (i == 0) {
-                    console.log('ilk asama')
+
                     path.push(0)
                 }
-                else  {
-                    console.log('ikinci')
+                else {
+
                     if (previous == 0) {
                         next = [0, 1]
                     } else {
@@ -61,21 +63,31 @@ const APP = (function (Product, UI) {
                     random = Math.floor(Math.random() * next.length)
                     previous = previous + next[random]
                     path.push(previous)
-                    console.log(previous)
+
                 }
-                if(i == length-1){
-                    console.log('son asama')
+                if (i == length - 1) {
+
                     var newPath = [];
-                    path.forEach(e=>{
+                    path.forEach(e => {
                         newPath.push(e)
                     });
-                    allPaths.push(newPath)
                     console.log(path)
-                    console.log(i)
+                    console.log(Boolean(check(newPath)))
+                    if (check(newPath) != true) {
+                        console.log('false')
+                        allPaths.push(newPath)
+                        console.log(allPaths)
+                    }
+
+                    if (allPaths.length == 0) {
+                        allPaths.push(newPath)
+                    }
+
+
                 }
             }
-            console.log(allPaths)
         }
+        console.log(allPaths)
     }
     const getPath = function () {
         let x = product.length;
@@ -156,30 +168,21 @@ const APP = (function (Product, UI) {
         }
 
     }
-    const check = function (i, previous) {
-        console.log(previous)
-        if (Prime(product[i][previous - 1])) {
-            next = previous - 1;
-            path.push(product[i][next])
-            console.log(path)
-            allPaths.push(path);
-        }
-        if (Prime(product[i][previous])) {
-            next = previous
-            path.push(product[i][next])
-            console.log(path)
-            allPaths.push(path);
-        }
-        console.log()
-        console.log(product[i][previous + 1])
-        console.log(Boolean(Prime(product[i][previous + 1])))
-        if (Prime(product[i][previous + 1])) {
-            next = previous + 1;
-            path[3] = (product[i][next]);
-            console.log(path)
-            allPaths.push(path);
-        }
-
+    const check = function (newPath) {
+        var checkArrays = [];
+        allPaths.forEach(p => {
+            console.log(p)
+            checkArrays = []
+            p.forEach(e => {
+                checkArrays.push(e)
+            })
+            console.log(newPath)
+            console.log(checkArrays)
+            if (checkArrays.join() == newPath.join()) {
+                console.log('true')
+                return true;
+            }
+        })
     }
     const Prime = function (number) {
 
@@ -196,7 +199,13 @@ const APP = (function (Product, UI) {
     }
 
     const getTotal = function (e) {
+        console.log(product.length)
+        if (product.length - 2 > 4) {
 
+        } else {
+            total = 13;
+        }
+        return total;
     }
     const showPath = function (e) {
         e.preventDefault();
