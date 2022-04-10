@@ -30,9 +30,9 @@ const UI = (function () {
 
 const APP = (function (Product, UI) {
     const product = Product.getInitialData()
-    const path = [];
+    let path = [];
     const allPaths = [];
-    let totalPath = 1;
+    let previous;
     const button = document.getElementById('button')
     const loadEventListeners = function () {
         button.addEventListener('click', showPath)
@@ -40,38 +40,73 @@ const APP = (function (Product, UI) {
 
     // finds all the paths in the pyramid
     const getPath = function () {
-        x = product.length
-        for (i = 0; i < product.length; i++) {
-            path.push(0)
-        }
-        for (j = 1; j <= x; j++) {
-            for (i = 0; i < totalPath; i++) {
-                console.log(totalPath / j)
-            }
+        let x = product.length;
+        for (j = 0; j < 3; j++) {
+            previous = 0;
+            i = 0;
+            path = [];
+            for (i = 0; i < x; i++) {
 
+                if (i == 0) {
+                   
+                    path.push(product[0][0])
+                }
+                else if (i < x - 1) {
+                    if (Prime(product[i][previous - 1])) {
+                        previous = previous - 1;
+                        path.push(product[i][previous])
+                    } else if (Prime(product[i][previous])) {
+                        path.push(product[i][previous])
+                    } else if (Prime(product[i][previous + 1])) {
+                        previous = previous + 1;
+                        path.push(product[i][previous])
+                    } else {
+                        console.log(path[path.length - 1])
+                    }
+                }
+                if (i == x-1) {
+                    console.log(i)
+                    console.log(previous)
+                    console.log(product[i])
+                    check(i,previous)
+                    path.push(product[i][previous])
+                    product[i][previous] = 2;
+                    allPaths.push(path);
+                    console.log(allPaths)
+        
+                    if (i == 1) {
+                        i = i + 1;
+                    }
+                    
+                }
+
+            }
         }
+
     }
-    const pathCount = function () {
-        for (i = product.length; i > 0; i--) {
-            totalPath = totalPath * i
+    const check = function (i,previous) {
+        if (Prime(product[i][previous - 1])) {
+            previous = previous - 1;    
+        } else if (Prime(product[i][previous])) {    
+        } else if (Prime(product[i][previous + 1])) {
+            previous = previous + 1;   
+        }else{
+            
         }
+        
     }
-    pathCount()
     const Prime = function (number) {
+      
         sqrt = Math.floor(Math.sqrt(number));
-        for (i = 2; i < sqrt + 1; i++) {
-            if (number % i == 0) {
+        
+        for (k = 2; k < sqrt + 1; k++) {
+            if (number % k == 0) {
                 return true;
             }
         }
         if (number == 1) {
             return true;
         }
-        // path.forEach(function(number,index){
-        //     if(Boolean(Prime(number)) == false){
-        //         console.log(number,index)
-        //     }
-        // }) 
     }
 
     const getTotal = function (e) {
