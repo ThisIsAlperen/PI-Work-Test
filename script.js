@@ -5,16 +5,35 @@ url = '';
 
 const Product = (function () {
 
-    const data = [
+    const data1 = [
         [1],
         [8, 4],
         [2, 6, 9],
         [8, 5, 9, 3],
-        [4, 7, 8, 1, 6]
+        [4, 7, 8, 1, 6],
+        [4, 2, 2, 2, 2, 2],
+        [4, 2, 2, 2, 2, 2, 2]
+    ]
+    const data2 = [
+        [215],
+        [193, 124],
+        [117, 237, 442],
+        [218, 935, 347, 235],
+        [320, 804, 522, 417, 345],
+        [229, 601, 723, 835, 133, 124],
+        [248, 202, 277, 433, 207, 263, 257],
+        [359, 464, 504, 528, 516, 716, 871, 182],
+        [461, 441, 426, 656, 863, 560, 380, 171, 923],
+        [381, 348, 573, 533, 447, 632, 387, 176, 975, 449],
+        [223, 711, 445, 645, 245, 543, 931, 532, 937, 541, 444],
+        [330, 131, 333, 928, 377, 733, 017, 778, 839, 168, 197, 197],
+        [131, 171, 522, 137, 217, 224, 291, 413, 528, 520, 227, 229, 928],
+        [223, 626, 034, 683, 839, 053, 627, 310, 713, 999, 629, 817, 410, 121],
+        [924, 622, 911, 233, 325, 139, 721, 218, 253, 223, 107, 233, 230, 124, 233]
     ]
     return {
         getInitialData: function () {
-            return data;
+            return data1;
         },
     }
 })();
@@ -51,9 +70,9 @@ const APP = (function (Product, UI) {
     const Path2 = function () {
         console.log(total)
         length = product.length
-        
-        for (j = 0; j < total * 4; j++) {
-            console.log(allPaths.length)
+
+        //while (allPaths.length <= total - 1) {
+        for(j=0;j<5000;j++){
             i = 0;
             previous = 0;
             path = []
@@ -88,13 +107,10 @@ const APP = (function (Product, UI) {
                             allPaths.push(newPath)
                         }
                     }
-                    if (allPaths.length == total) {
-                        j = total * 4;
-                    }
+
                 }
             }
         }
-        console.log(allPaths)
     }
     const getPath = function () {
 
@@ -108,7 +124,7 @@ const APP = (function (Product, UI) {
         console.log(totalPaths)
     }
     const findRealPaths = function () {
-        totalPaths.forEach(path => {
+        totalPaths.forEach(function (path, index) {
             path.forEach(e => {
                 notPrime = true;
                 Prime(e)
@@ -116,7 +132,8 @@ const APP = (function (Product, UI) {
                     path.push('prime')
                 }
             })
-            if (path.length < product.length+1) {
+            if (path.length < product.length + 1) {
+                console.log(index)
                 realPaths.push(path)
             }
         })
@@ -154,12 +171,20 @@ const APP = (function (Product, UI) {
         total = 5;
         if (product.length > 3) {
             x = product.length - 3
-            console.log(x)
             for (i = 1; i <= x; i++) {
-                total = total + i * (2 + 3 + (i * 3))
+                var num = 1;
+                if (i < 2) {
+                    num = i;
+                }
+                if (i >= 2) {
+                    num = i * (i - 1)
+                }
+                total = total + num * (2 + 3 + (i * 3))
+                console.log(num * (2 + 3 + (i * 3)))
                 console.log(total)
             }
         }
+        console.log(total)
         return total;
     }
     const allSums = function () {
@@ -170,6 +195,15 @@ const APP = (function (Product, UI) {
             })
             Sums.push(pathSum)
         })
+    }
+    const factorialize = function (num) { 
+        if (num < 0) 
+              return -1;
+        else if (num == 0) 
+            return 1;
+        else {
+            return (num * factorialize(num - 1));
+        }
     }
     const largestSum = function () {
         i = 0;
@@ -196,6 +230,9 @@ const APP = (function (Product, UI) {
             allSums()
             largestSum()
             loadEventListeners()
+            console.log(allPaths)
+            console.log(totalPaths)
+            console.log(realPaths)
         }
     }
 })(Product, UI)
