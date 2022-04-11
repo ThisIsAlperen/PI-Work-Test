@@ -9,7 +9,8 @@ const Product = (function () {
         [1],
         [8, 4],
         [2, 6, 9],
-        [8, 5, 9, 3]
+        [8, 5, 9, 3],
+        [4, 7, 8, 1, 6]
     ]
     return {
         getInitialData: function () {
@@ -32,7 +33,14 @@ const APP = (function (Product, UI) {
     const product = Product.getInitialData()
     var path = [];
     let allPaths = [];
+    let totalPaths = [];
+    let realPaths = [];
+    let Sums = [];
+    let total = 0;
+    let largest = 0;
     let previous = 0;
+    let exist = false;
+    let notPrime = true;
     const button = document.getElementById('button')
     const loadEventListeners = function () {
         button.addEventListener('click', showPath)
@@ -41,13 +49,14 @@ const APP = (function (Product, UI) {
     // finds all the paths in the pyramid
 
     const Path2 = function () {
+        console.log(total)
         length = product.length
-        getTotal()
-        for (j = 0; j < total; j++) {
+        
+        for (j = 0; j < total * 4; j++) {
+            console.log(allPaths.length)
             i = 0;
             previous = 0;
             path = []
-
             for (i = 0; i < length; i++) {
                 if (i == 0) {
 
@@ -63,125 +72,68 @@ const APP = (function (Product, UI) {
                     random = Math.floor(Math.random() * next.length)
                     previous = previous + next[random]
                     path.push(previous)
-
                 }
                 if (i == length - 1) {
-
                     var newPath = [];
                     path.forEach(e => {
                         newPath.push(e)
                     });
-                    console.log(path)
-                    console.log(Boolean(check(newPath)))
-                    if (check(newPath) != true) {
-                        console.log('false')
-                        allPaths.push(newPath)
-                        console.log(allPaths)
-                    }
+                    exist = false
+                    check(newPath)
 
                     if (allPaths.length == 0) {
                         allPaths.push(newPath)
+                    } else {
+                        if (exist != true) {
+                            allPaths.push(newPath)
+                        }
                     }
-
-
+                    if (allPaths.length == total) {
+                        j = total * 4;
+                    }
                 }
             }
         }
         console.log(allPaths)
     }
     const getPath = function () {
-        let x = product.length;
-        for (j = 0; j < 4; j++) {
-            previous = 0;
-            let next = 0;
-            i = 0;
 
-            var path = [];
-            for (p = 0; p < x; p++) {
-
-                if (i == 0) {
-                    path.push(product[0][0])
+        allPaths.forEach(path => {
+            var newPath = [];
+            path.forEach(function (e, index) {
+                newPath.push(product[index][e])
+            })
+            totalPaths.push(newPath)
+        })
+        console.log(totalPaths)
+    }
+    const findRealPaths = function () {
+        totalPaths.forEach(path => {
+            path.forEach(e => {
+                notPrime = true;
+                Prime(e)
+                if (notPrime) {
+                    path.push('prime')
                 }
-                else if (i < x - 1) {
-                    console.log(i, previous)
-                    console.log(product)
-                    console.log(product[i][previous])
-                    if (Prime(product[i][previous - 1])) {
-                        next = previous - 1;
-                        path.push(product[i][next])
-                    } else if (Prime(product[i][previous])) {
-                        next = previous
-                        path.push(product[i][next])
-                    } else if (Prime(product[i][previous + 1])) {
-                        next = previous + 1;
-                        path.push(product[i][next])
-                    } else {
-                        console.log('else')
-                        console.log(product[i - 1][previous])
-                        product[i - 1][previous] = 2;
-                        i = i - 2;
-                        console.log(i)
-                    }
-                    console.log(next)
-                }
-                if (i == x - 1) {
-                    console.log(next)
-
-                    if (Prime(product[i][next - 1])) {
-                        path.push(product[i][next - 1])
-                        var newPath = [];
-                        path.forEach(e => {
-                            newPath.push(e)
-                        })
-                        allPaths.push(newPath)
-                        path.pop()
-                    } if (Prime(product[i][next])) {
-                        path.push(product[i][next])
-                        var newPath = [];
-                        path.forEach(e => {
-                            newPath.push(e)
-                        })
-                        allPaths.push(newPath)
-                        path.pop()
-                    } if (Prime(product[i][next + 1])) {
-                        path.push(product[i][next + 1])
-                        var newPath = [];
-                        path.forEach(e => {
-                            newPath.push(e)
-                        })
-                        allPaths.push(newPath)
-                        path.pop()
-                    }
-                    console.log(path)
-                    console.log(product[i - 1])
-                    i = i - 1;
-
-                    console.log(product[i][next] = 2)
-
-                    console.log(next)
-
-                    console.log(allPaths)
-
-                }
-                i = i + 1;
+            })
+            if (path.length < product.length+1) {
+                realPaths.push(path)
             }
-        }
-
+        })
     }
     const check = function (newPath) {
         var checkArrays = [];
         allPaths.forEach(p => {
-            console.log(p)
             checkArrays = []
             p.forEach(e => {
                 checkArrays.push(e)
             })
-            console.log(newPath)
-            console.log(checkArrays)
+
             if (checkArrays.join() == newPath.join()) {
-                console.log('true')
-                return true;
+                console.log(true)
+                exist = true;
             }
+            return exist;
         })
     }
     const Prime = function (number) {
@@ -190,22 +142,46 @@ const APP = (function (Product, UI) {
 
         for (k = 2; k < sqrt + 1; k++) {
             if (number % k == 0) {
-                return true;
+                notPrime = false;
             }
         }
         if (number == 1) {
-            return true;
+            notPrime = false;
         }
+        return notPrime;
     }
-
-    const getTotal = function (e) {
-        console.log(product.length)
-        if (product.length - 2 > 4) {
-
-        } else {
-            total = 13;
+    const getTotal = function () {
+        total = 5;
+        if (product.length > 3) {
+            x = product.length - 3
+            console.log(x)
+            for (i = 1; i <= x; i++) {
+                total = total + i * (2 + 3 + (i * 3))
+                console.log(total)
+            }
         }
         return total;
+    }
+    const allSums = function () {
+        realPaths.forEach(function (path, index) {
+            var pathSum = 0
+            path.forEach(e => {
+                pathSum = pathSum + e;
+            })
+            Sums.push(pathSum)
+        })
+    }
+    const largestSum = function () {
+        i = 0;
+        console.log(Sums)
+        Sums.forEach(function (e, index) {
+            if (e >= largest) {
+                largest = e;
+                i = index
+            }
+        })
+        console.log(largest)
+        console.log(realPaths[i])
     }
     const showPath = function (e) {
         e.preventDefault();
@@ -213,8 +189,12 @@ const APP = (function (Product, UI) {
     }
     return {
         init: function () {
-            //getPath()
+            getTotal()
             Path2()
+            getPath()
+            findRealPaths()
+            allSums()
+            largestSum()
             loadEventListeners()
         }
     }
