@@ -9,10 +9,8 @@ const Product = (function () {
         [1],
         [8, 4],
         [2, 6, 9],
-        [8, 5, 9, 3],
-        [4, 7, 8, 1, 6],
-        [4, 2, 2, 2, 2, 2],
-        [4, 2, 2, 2, 2, 2, 2]
+        [8, 5, 9, 3]
+   
     ]
     const data2 = [
         [215],
@@ -33,7 +31,7 @@ const Product = (function () {
     ]
     return {
         getInitialData: function () {
-            return data1;
+            return data2;
         },
     }
 })();
@@ -58,6 +56,7 @@ const APP = (function (Product, UI) {
     let total = 0;
     let largest = 0;
     let previous = 0;
+    let next = [0, 1];
     let exist = false;
     let notPrime = true;
     const button = document.getElementById('button')
@@ -69,25 +68,19 @@ const APP = (function (Product, UI) {
 
     const Path2 = function () {
         console.log(total)
-        length = product.length
 
-        //while (allPaths.length <= total - 1) {
-        for(j=0;j<5000;j++){
+        length = product.length
+        console.log(length)
+        while (allPaths.length <= total-1) {
+        //for (j = 0; j < 10*2; j++) {
             i = 0;
             previous = 0;
             path = []
             for (i = 0; i < length; i++) {
                 if (i == 0) {
-
                     path.push(0)
                 }
                 else {
-
-                    if (previous == 0) {
-                        next = [0, 1]
-                    } else {
-                        next = [-1, 0, 1]
-                    }
                     random = Math.floor(Math.random() * next.length)
                     previous = previous + next[random]
                     path.push(previous)
@@ -113,7 +106,6 @@ const APP = (function (Product, UI) {
         }
     }
     const getPath = function () {
-
         allPaths.forEach(path => {
             var newPath = [];
             path.forEach(function (e, index) {
@@ -168,23 +160,7 @@ const APP = (function (Product, UI) {
         return notPrime;
     }
     const getTotal = function () {
-        total = 5;
-        if (product.length > 3) {
-            x = product.length - 3
-            for (i = 1; i <= x; i++) {
-                var num = 1;
-                if (i < 2) {
-                    num = i;
-                }
-                if (i >= 2) {
-                    num = i * (i - 1)
-                }
-                total = total + num * (2 + 3 + (i * 3))
-                console.log(num * (2 + 3 + (i * 3)))
-                console.log(total)
-            }
-        }
-        console.log(total)
+        total = Math.pow(2,product.length-1)
         return total;
     }
     const allSums = function () {
@@ -196,10 +172,10 @@ const APP = (function (Product, UI) {
             Sums.push(pathSum)
         })
     }
-    const factorialize = function (num) { 
-        if (num < 0) 
-              return -1;
-        else if (num == 0) 
+    const factorialize = function (num) {
+        if (num < 0)
+            return -1;
+        else if (num == 0)
             return 1;
         else {
             return (num * factorialize(num - 1));
