@@ -10,10 +10,43 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .container{
+            text-align: center;
+        }
+        #main{
+            margin-top: 20px;
+        }
+        #realPaths{
+            margin-top: 30px;
+        }
+        #sum{
+            margin-top: 20px;
+        }
+        .colum{
+            width: min-content;
+            border: 2px solid black;
+        }
+        .row {
+            font-size: 25px;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
 </head>
 
 <body>
-    <button id="button">buton</button>
+    <div class="container">
+        <div id="main">
+            <h2>Pyramid</h2>
+        </div>
+        <div id="realPaths">
+            <h2>Real Paths</h2>
+        </div>
+        <div id="sum">
+            <h2>Largest Sum</h2>
+        </div>
+    </div>
 </body>
 <script>
     NodeList.prototype.forEach = HTMLCollection.prototype.forEach = Array.prototype.forEach;
