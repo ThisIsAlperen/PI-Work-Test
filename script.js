@@ -58,9 +58,10 @@ const Product = (function() {
       },
       createPath: function(paths) {
         length = paths[0].length
-        paths.forEach(path => {
+        paths.forEach(function(path,index) {
           row = document.createElement('div')
           row.classList.add('row')
+          row.innerHTML = `<span>${index}</span>`
           path.forEach(e => {
             col = document.createElement('div')
             col.classList.add('colum')
