@@ -19,16 +19,17 @@ const Product = (function() {
       [461, 441, 426, 656, 863, 560, 380, 171, 923],
       [381, 348, 573, 533, 447, 632, 387, 176, 975, 449],
       [223, 711, 445, 645, 245, 543, 931, 532, 937, 541, 444],
-      [330, 131, 333, 928, 377, 733, 017, 778, 839, 168, 197, 197],
+      [330, 131, 333, 928, 377, 733, 17, 778, 839, 168, 197, 197],
       [131, 171, 522, 137, 217, 224, 291, 413, 528, 520, 227, 229, 928],
-      [223, 626, 034, 683, 839, 053, 627, 310, 713, 999, 629, 817, 410, 121],
+      [223, 626, 34, 683, 839, 53, 627, 310, 713, 999, 629, 817, 410, 121],
       [924, 622, 911, 233, 325, 139, 721, 218, 253, 223, 107, 233, 230, 124, 233]
     ]
       
     // the calculation for data two has been made without UI & in local server, if you change data1 to data2 (line31) and run in local server, it will calculate. It might be slow in here
     return {
       getInitialData: function() {
-        return data2;
+          console.log(data2)
+        return data1;
       },
     }
   })();
@@ -138,6 +139,7 @@ const Product = (function() {
           }
         }
       }
+      console.log(allPaths)
     }
     // obtain the real values of the paths by using allPaths as index numbers
     const getPath = function() {
